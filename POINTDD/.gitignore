@@ -1,0 +1,24 @@
+# Build artifacts - regenerate with compile.cmd / compile-wat.cmd /
+# compile-realname.cmd / compile-test.cmd. Nothing here is source.
+*.obj
+*.map
+*.sys
+*.OS2
+*.exe
+*.lst
+*.sym
+*.lrf
+
+# Build and runtime trace logs - regenerate on next run.
+*.log
+com.log
+
+# DDK-derived header (originally from IBM's MiniDDK, C:\MiniDDK\base\h\strategy.h).
+# Not ours to redistribute, and not actually needed to build this project -
+# Dev16lib.h already pulls strategy.h from the DDK's own include path. See
+# README.md "Prerequisites" for how to obtain one if you need it for reference.
+strategy.h
+
+# Local Claude Code routing file - hardcodes this machine's absolute paths and
+# is not meaningful to other contributors or checkouts.
+CLAUDE.md

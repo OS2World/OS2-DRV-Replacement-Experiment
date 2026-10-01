@@ -1,0 +1,100 @@
+Pointer Device Driver provides pointer device support for OS/2.
+
+The POINTDD.SYS driver must always be loaded before any MOUSEXX.SYS driver. POINTDD.SYS works together with the MOUSEXX.SYS drivers.
+
+POINTDD.SYS displays the pointer image of the pointing device on the screen.
+
+==Version==
+{|class="wikitable"
+!Date||Version||Size||Comments
+|-
+|1993-07-20|| ||1,787 bytes||[[OS/2 Version 2.0]] XR_6100
+|-
+|2002-05-21||10.70||3,846 bytes||
+|}
+
+==CONFIG.SYS Information==
+Provides mouse pointer draw support. Text modes 0, 1, 2, 3, and 7 and graphic modes D, E, F, and 10 are supported. For graphic modes other than D, E, F, and 10, the correct graphic device driver must also be installed.
+ DEVICE=\OS2\BOOT\POINTDD.SYS
+
+'''WARNING:''' In order for [[MOUSE.SYS]] to work effectively, this driver must be loaded by OS/2 before MOUSE.SYS. Do not remove it from your config.sys file.
+
+==Programming Interface==
+POINTDD.SYS registers itself under the device name '''POINTER$'''. The mouse subsystem
+(MOUSE.SYS and/or whatever integration layer sits above it) opens this device and
+communicates with it exclusively through '''Category 3''' (<code>IOCTL_SCR_AND_PTRDRAW</code>,
+0x0003) IOCTLs.
+
+===PTR_GETPTRDRAWADDRESS (Function 0x72)===
+This is the only function the physical Pointer Draw device driver (POINTDD.SYS) is
+documented to answer. Per IBM's own Physical Device Driver Reference: "This function is
+used by the mouse subsystem to obtain the entry point address of the pointer draw
+routine ... supported by the physical Pointer Draw device driver." In other words,
+'''POINTDD.SYS answers this call — it never makes it.''' The caller supplies a buffer
+for a small response packet (10 bytes, 2-byte packed):
+
+ typedef struct {
+    USHORT usReturnCode;        /* 0 = success */
+    PFN    pfnDraw;              /* 16:16 far pointer to the draw routine */
+    PCH    pchDataSeg;           /* reserved/unused in practice; observed as 0 */
+ } PTRDRAWFUNCTION;
+
+If the supplied buffer is smaller than <code>sizeof(PTRDRAWFUNCTION)</code>, the driver
+must reject the call (<code>RPERR_LENGTH</code>) rather than attempt a partial write —
+see "Behavior in virtualized/modern environments" below for why this matters in
+practice, not just in theory.
+
+The returned <code>pfnDraw</code> is a routine with the same signature used by the
+display driver's own pointer-drawing code (see <code>pointer.asm</code> in the IBM DDK):
+ void far draw_pointer(LONG ptlX, LONG ptlY);
+documented as callable from both ring 0 and ring 3, cell/pixel coordinates depending on
+video mode.
+
+'''Note:''' this is unrelated to Function 0x73 (<code>VID_INITCALLVECTOR</code>), which
+is a separate Call Vector Table handshake used by '''display''' drivers, not the pointer
+device driver — easy to confuse from the header constants alone, since both live under
+Category 3.
+
+===Pointer drawing responsibilities===
+For text modes, drawing is understood to mean writing directly into the VGA text-mode
+character+attribute buffer (physical address 0xB8000 for color modes) at the cursor's
+current character cell, saving the cell's original content first so it can be restored
+when the cursor moves or is removed ("save-under"). For graphic modes, the display
+driver's own AND/XOR pointer-mask model applies instead (32×32 hotspot-based cursor),
+and POINTDD.SYS is additionally documented as responsible for EGA register save/restore
+when a DOS (VDM) session owns the display.
+
+==Behavior in virtualized / modern environments==
+As of 2026, no source code for POINTDD.SYS has been located in any released IBM OS/2
+Device Driver Kit — checked against both the original 1993 "IBM Device Driver Source Kit
+for OS/2 Version 1.0" and the 2004 DDK compilation — nor in the osFree project. The
+notes below come from an independent, from-scratch, documentation-driven reimplementation
+effort (community project, OS2World), built and empirically tested against a
+'''custom clone driver''' registered under the real <code>POINTER$</code> name on an
+ArcaOS 5.1.2 VirtualBox virtual machine.
+
+Two independent, unrelated "mouse subsystem" implementations were observed calling
+<code>PTR_GETPTRDRAWADDRESS</code> during normal boot:
+* VirtualBox's own Guest Additions mouse driver (<code>VBoxMouse.sys</code>)
+* A third-party alternative mouse driver (<code>AMOUSE.SYS</code>)
+
+Both exhibited the '''same pattern''': the call is made with a zero-length data buffer —
+i.e. a pure capability probe, not an attempt to actually obtain a usable draw-routine
+address — and both '''expect this probe to be rejected'''. Answering the probe with a
+fabricated "success" (rather than the documented <code>RPERR_LENGTH</code> rejection) is
+not merely wrong, it is actively unsafe: doing so experimentally caused a crash inside
+VirtualBox's own <code>VBOXMOUS</code> module, which appears to interpret success as
+having received a genuine draw-routine address and attempts to use it immediately, even
+though nothing valid was ever written into the (zero-length) buffer.
+
+With the probe correctly rejected (the documented, correct behavior), the mouse pointer
+in both cases still displayed and tracked correctly on screen — meaning neither caller
+actually relies on real POINTDD pointer-draw delegation to render the cursor; both draw
+it through their own internal mechanism, using <code>PTR_GETPTRDRAWADDRESS</code> only
+as an optional capability check. The clone driver's own draw/erase routine (direct
+save-under writes to the VGA text buffer, confirmed byte-exact and visually, including
+across character-cell row changes) was never actually invoked by either real-world
+caller in this environment — not because the mechanism doesn't work, but because neither
+available caller exercises it.
+
+[[Category:Character Device Drivers]][[Category:DEVICE Statements]]

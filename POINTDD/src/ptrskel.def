@@ -1,0 +1,19 @@
+; ptrskel.def - linker module definition for the Phase 1 POINTDD-clone skeleton
+;
+; Modeled on the WiFi RTL8188EU driver's rtl88eu.def (same DDK/segment pattern).
+; The device name (PTRSKEL$, a Phase-1 decoy - see ptr_hdr.asm) is in the
+; header; this names the module and sets segment attributes.
+LIBRARY PTRSKEL
+
+DESCRIPTION 'POINTDD clone - Phase 1 skeleton (decoy name, load-safety proof only)'
+
+PROTMODE
+
+SEGMENTS
+ HEADER   CLASS 'HEADER'
+ CONST    CLASS 'CONST'
+ _BSS     CLASS 'BSS'
+ _DATA    CLASS 'DATA'
+ RMCode   CLASS 'CODE' IOPL
+ 'Code'   CLASS 'CODE' IOPL
+ _TEXT    CLASS 'CODE' IOPL
