@@ -1,7 +1,7 @@
 @echo off
 rem ---------------------------------------------------------------------------
 rem  compile-test.cmd - build testptr.exe (the ring-3 IOCtl test app).
-rem  Run from anywhere on the VM: D:\PROJECTS\DRIVERS\POINTDD\compile-test.cmd
+rem  Run from anywhere on the VM: D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\compile-test.cmd
 rem
 rem  Ordinary 32-bit OS/2 console app, NOT a driver - per the top-level
 rem  CLAUDE.md's "Build a console (VIO) app" recipe: wcl386 -bt=os2 -l=os2v2.
@@ -12,7 +12,7 @@ rem ---------------------------------------------------------------------------
 
 if "%1"=="_LOGGED_" goto :run
 
-cmd /c D:\PROJECTS\DRIVERS\POINTDD\compile-test.cmd _LOGGED_ 2>&1 | tee -a D:\PROJECTS\DRIVERS\POINTDD\compile-test.log
+cmd /c D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\compile-test.cmd _LOGGED_ 2>&1 | tee -a D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\compile-test.log
 goto :end
 
 :run
@@ -26,7 +26,7 @@ echo  compile-test.cmd run started
 echo ============================================================
 
 d:
-cd \PROJECTS\DRIVERS\POINTDD\test
+cd \PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\test
 
 echo === wcl386 ===
 wcl386 -bt=os2 -l=os2v2 testptr.c -fe=testptr.exe

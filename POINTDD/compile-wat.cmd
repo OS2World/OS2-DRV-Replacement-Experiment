@@ -1,7 +1,7 @@
 @echo off
 rem ---------------------------------------------------------------------------
 rem  compile-wat.cmd - build PTRSKEL.SYS (Phase 1) with OpenWatcom + Drv16Kit.
-rem  Run from anywhere on the VM: D:\PROJECTS\DRIVERS\POINTDD\compile-wat.cmd
+rem  Run from anywhere on the VM: D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\compile-wat.cmd
 rem
 rem  Parallel build to compile.cmd (the MS C 6.0/MASM/LINK version, which
 rem  already builds clean - see PLAN.md Sec 3). This is the open-source-tools
@@ -25,7 +25,7 @@ rem ---------------------------------------------------------------------------
 
 if "%1"=="_LOGGED_" goto :run
 
-cmd /c D:\PROJECTS\DRIVERS\POINTDD\compile-wat.cmd _LOGGED_ 2>&1 | tee -a D:\PROJECTS\DRIVERS\POINTDD\compile-wat.log
+cmd /c D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\compile-wat.cmd _LOGGED_ 2>&1 | tee -a D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\compile-wat.log
 goto :end
 
 :run
@@ -44,7 +44,7 @@ echo DRV16KIT=%DRV16KIT%
 echo.
 
 d:
-cd \PROJECTS\DRIVERS\POINTDD\src-wat
+cd \PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\src-wat
 
 echo === wmake ===
 wmake

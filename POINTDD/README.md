@@ -111,8 +111,8 @@ docs/edm2-wiki-draft.txt Draft writeup for the EDM/2 wiki's POINTDD.SYS page
 ```
 
 The `.cmd` scripts assume the project lives at a fixed path inside the build VM
-(`D:\PROJECTS\DRIVERS\POINTDD`, via a VirtualBox shared folder) — update the hardcoded
-paths near the top of each script if yours differs.
+(`D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD`, via a VirtualBox shared
+folder) — update the hardcoded paths near the top of each script if yours differs.
 
 ## Building
 

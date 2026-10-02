@@ -1,7 +1,7 @@
 @echo off
 rem ---------------------------------------------------------------------------
 rem  compile-realname.cmd - build PDCLONE.SYS, the REAL-NAME (POINTER$)
-rem  swap-in test build. Run: D:\PROJECTS\DRIVERS\POINTDD\compile-realname.cmd
+rem  swap-in test build. Run: D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\compile-realname.cmd
 rem
 rem  *** This builds the driver that registers as POINTER$, the real device
 rem  name - see src-wat-realname\PDCLONE.c's file header and the swap-in
@@ -13,7 +13,7 @@ rem ---------------------------------------------------------------------------
 
 if "%1"=="_LOGGED_" goto :run
 
-cmd /c D:\PROJECTS\DRIVERS\POINTDD\compile-realname.cmd _LOGGED_ 2>&1 | tee -a D:\PROJECTS\DRIVERS\POINTDD\compile-realname.log
+cmd /c D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\compile-realname.cmd _LOGGED_ 2>&1 | tee -a D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\compile-realname.log
 goto :end
 
 :run
@@ -32,7 +32,7 @@ echo DRV16KIT=%DRV16KIT%
 echo.
 
 d:
-cd \PROJECTS\DRIVERS\POINTDD\src-wat-realname
+cd \PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\src-wat-realname
 
 echo === wmake ===
 wmake

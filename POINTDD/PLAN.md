@@ -262,7 +262,7 @@ decoy test, hence swap-in/observe/swap-back with a full backup, not a lasting ch
    `C:\OS2\BOOT\POINTDD.SYS` — find the exact existing line text yourself rather than
    assume it verbatim, in case of extra parameters/formatting). Replace that one line,
    in the same position (order relative to `MOUSE.SYS` matters), with:
-   `DEVICE=D:\PROJECTS\DRIVERS\POINTDD\src-wat-realname\PDCLONE.SYS`
+   `DEVICE=D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\src-wat-realname\PDCLONE.SYS`
    (Not using `REM` or any other comment syntax to disable the original line — couldn't
    confirm OS/2 `CONFIG.SYS` comment syntax in our available docs, so the line is
    replaced outright, with the backup from step 2 as the actual safety net.)
@@ -549,7 +549,7 @@ Also added `STRATEGY_DEINSTALL` → `EraseCursor()`, matching PTRSKEL.c's cleanu
 **Written, not yet built/tested.** Next action: user runs `compile-realname.cmd`, then
 follows the SAME swap-in procedure as Runs 1-5 (§4a steps 1-6: confirm recovery path,
 back up `CONFIG.SYS`, replace the real driver's line with
-`DEVICE=D:\PROJECTS\DRIVERS\POINTDD\src-wat-realname\PDCLONE.SYS` — or copy `PDCLONE.SYS`
+`DEVICE=D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\src-wat-realname\PDCLONE.SYS` — or copy `PDCLONE.SYS`
 to `C:\OS2\BOOT\` and `REM` the original, the safer variant Run 1 actually used — reboot).
 After reboot, move the mouse around for a while — both in the PM desktop and in a
 full-screen VIO/text session if possible, to maximize the chance of catching a real call

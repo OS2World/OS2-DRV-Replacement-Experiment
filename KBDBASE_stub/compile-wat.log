@@ -1,0 +1,160 @@
+
+ECHO is off.
+ compile-wat.cmd run started
+ECHO is off.
+=== environment ===
+WATCOM=C:\WATCOM
+DDK=C:\MiniDDK
+DRV16KIT=C:\Drv16\Kit
+
+=== wmake ===
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	wcc -q -bt=os2 -6 -obilmr -s -ze -zl -zq -zff -zgf -ms -wx -zp4 -za99 -zu KBDBASE.c
+	wlink @KBDBASE.lrf
+
+=== result ===
+
+The volume label in drive D is OS2TEMP.
+The Volume Serial Number is A6D3:3D6E.
+Directory of D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\KBDBASE\src-wat
+
+10-01-26 11:01a         2,790      0 a---  KBDBASE.sys
+        1 file(s)       2,790 bytes used
+                  609,930,838 K bytes free
+=== done ===
+
+ECHO is off.
+ compile-wat.cmd run started
+ECHO is off.
+=== environment ===
+WATCOM=C:\WATCOM
+DDK=C:\MiniDDK
+DRV16KIT=C:\Drv16\Kit
+
+=== wmake ===
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+
+=== result ===
+
+The volume label in drive D is OS2TEMP.
+The Volume Serial Number is A6D3:3D6E.
+Directory of D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\KBDBASE\src-wat
+
+10-01-26 11:01a         2,790      0 a---  KBDBASE.sys
+        1 file(s)       2,790 bytes used
+                  608,605,831 K bytes free
+=== done ===
+
+ECHO is off.
+ compile-wat.cmd run started
+ECHO is off.
+=== environment ===
+WATCOM=C:\WATCOM
+DDK=C:\MiniDDK
+DRV16KIT=C:\Drv16\Kit
+
+=== wmake ===
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	wcc -q -bt=os2 -6 -obilmr -s -ze -zl -zq -zff -zgf -ms -wx -zp4 -za99 -zu KBDBASE.c
+	wlink @KBDBASE.lrf
+
+=== result ===
+
+The volume label in drive D is OS2TEMP.
+The Volume Serial Number is A6D3:3D6E.
+Directory of D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\KBDBASE\src-wat
+
+10-01-26  1:46p         2,790      0 a---  KBDBASE.sys
+        1 file(s)       2,790 bytes used
+                  608,598,654 K bytes free
+=== done ===
+
+ECHO is off.
+ compile-wat.cmd run started
+ECHO is off.
+=== environment ===
+WATCOM=C:\WATCOM
+DDK=C:\MiniDDK
+DRV16KIT=C:\Drv16\Kit
+
+=== wmake ===
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	wcc -q -bt=os2 -6 -obilmr -s -ze -zl -zq -zff -zgf -ms -wx -zp4 -za99 -zu KBDBASE.c
+	wlink @KBDBASE.lrf
+
+=== result ===
+
+The volume label in drive D is OS2TEMP.
+The Volume Serial Number is A6D3:3D6E.
+Directory of D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\KBDBASE\src-wat
+
+10-01-26  1:51p         1,260      0 a---  KBDBASE.sys
+        1 file(s)       1,260 bytes used
+                  608,541,933 K bytes free
+=== done ===
+
+ECHO is off.
+ compile-wat.cmd run started
+ECHO is off.
+=== environment ===
+WATCOM=C:\WATCOM
+DDK=C:\MiniDDK
+DRV16KIT=C:\Drv16\Kit
+
+=== wmake ===
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	wcc -q -bt=os2 -6 -obilmr -s -ze -zl -zq -zff -zgf -ms -wx -zp4 -za99 -zu KBDBASE.c
+	wlink @KBDBASE.lrf
+
+=== result ===
+
+The volume label in drive D is OS2TEMP.
+The Volume Serial Number is A6D3:3D6E.
+Directory of D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\KBDBASE\src-wat
+
+10-01-26  1:55p         1,264      0 a---  KBDBASE.sys
+        1 file(s)       1,264 bytes used
+                  608,395,853 K bytes free
+=== done ===
+
+ECHO is off.
+ compile-wat.cmd run started
+ECHO is off.
+=== environment ===
+WATCOM=C:\WATCOM
+DDK=C:\MiniDDK
+DRV16KIT=C:\Drv16\Kit
+
+=== wmake ===
+Open Watcom Make Version 2.0.1
+Portions Copyright (c) 1988-2002 Sybase, Inc. All Rights Reserved.
+Source code is available under the Sybase Open Watcom Public License.
+See http://www.openwatcom.org/ for details.
+	wcc -q -bt=os2 -6 -obilmr -s -ze -zl -zq -zff -zgf -ms -wx -zp4 -za99 -zu KBDBASE.c
+	wlink @KBDBASE.lrf
+
+=== result ===
+
+The volume label in drive D is OS2TEMP.
+The Volume Serial Number is A6D3:3D6E.
+Directory of D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\KBDBASE\src-wat
+
+10-01-26  2:06p         1,286      0 a---  KBDBASE.sys
+        1 file(s)       1,286 bytes used
+                  610,082,390 K bytes free
+=== done ===

@@ -1,0 +1,142 @@
+COUNTRY.SYS is the OS/2 country information file. Despite the ''.SYS'' name it is '''not a device driver''': it is a passive data file, never executed, that supplies the country- and code-page-specific data behind the national language support (NLS) APIs. It is loaded with the [[CONFIG.SYS - Commands#COUNTRY|COUNTRY]] statement, not with <code>DEVICE=</code>.
+
+==Version==
+{|class="wikitable"
+!Date
+!Version
+!Size
+!Comments
+|-
+|1993-07-24 12:22
+|
+|25,610 bytes
+|[[IBM OS/2 Version 2.0]] (XR06100)
+|-
+|2001-09-24 17:46
+|14.82
+|50,947 bytes
+|IBM OS/2 Warp Country Information Version 4.5
+|}
+
+==Config.SYS Documentation==
+* [[CONFIG.SYS - Commands#COUNTRY|COUNTRY.SYS]]
+
+A typical entry names the country code and the path of the file:
+ COUNTRY=049,C:\OS2\SYSTEM\COUNTRY.SYS
+
+The file is read very early during boot. If it is not a structurally valid country information file, boot stops with message '''SYS02069''' (the country information file is incorrect, not valid, or damaged). Nothing else is at risk, since the file is only data.
+
+==What it provides==
+The data in the file is returned by these Control Program APIs:
+{|class="wikitable"
+!API
+!Returns
+|-
+|<code>DosQueryCtryInfo</code>
+|The <code>COUNTRYINFO</code> structure: date format, currency symbol and format, thousands/decimal/date/time/data separators, number of decimal places, 12/24-hour time format
+|-
+|<code>DosQueryCollate</code>
+|A 256-byte collating (sort weight) table
+|-
+|<code>DosMapCase</code>
+|Upper-case mapping for the national characters (0x80-0xFF) of the code page
+|-
+|<code>DosQueryDBCSEnv</code>
+|The DBCS lead-byte ranges for the country and code page (empty for single-byte code pages)
+|}
+
+Lookups are by a (country code, code page) pair, for example 1/850 (USA, code page 850), 49/850 (Germany), 81/932 (Japan, Shift-JIS) or 90/857 (Turkey).
+
+==File format==
+The layout was never officially documented. The following was worked out in 2026 by analysing the 50,947-byte file shipped with ArcaOS 5.1 against the output of the API calls above, and cross-checked with the BSD-licensed experimental source by Wim Brul (see Alternatives). It has been confirmed by building a replacement file and booting it on ArcaOS 5.1.2.
+
+All values are little-endian. All offsets are absolute offsets from the start of the file stored in 16-bit fields, so the file cannot be larger than 64 KB (the original is 50,947 bytes).
+
+{|class="wikitable"
+!Part
+!Size
+!Contents
+|-
+|Header
+|23 bytes
+|<code>FF 'COUNTRY'</code>, then <code>01 00 00 00 00 00 00 00 01 00 01</code>, then the offset of the directory (<code>17 00</code> = 23) and <code>00 00</code>
+|-
+|Count
+|1 word
+|Number of directory entries (304 in the 50,947-byte file). It must equal the real number of entries.
+|-
+|Directory
+|14 bytes per entry
+|<code>{ 12, country, codepage, 0, 0, table2Offset, 0 }</code> (each field a word)
+|-
+|Type table
+|50 bytes per entry
+|A count word (6), then six 8-byte slots <code>{ 8, type, leafOffset, 0 }</code>
+|-
+|Leaf records
+|varies
+|The actual tables. Each begins with <code>FF</code> and a 7-character tag.
+|}
+
+The six slots of a type table always appear in this order:
+{|class="wikitable"
+!Slot
+!Type
+!Leaf tag
+!Size
+!Contents
+|-
+|1
+|1
+|<code>CTYINFO</code>
+|48 bytes
+|Record length (38), country, code page, <code>fsDateFmt</code>, currency symbol (5 bytes), four 2-byte separators (thousands, decimal, date, time), <code>fsCurrencyFmt</code>, <code>cDecimalPlace</code>, <code>fsTimeFmt</code>, reserved bytes, data separator (2 bytes). The fields match the documented <code>COUNTRYINFO</code> structure.
+|-
+|2
+|6
+|<code>COLLATE</code>
+|266 bytes
+|10-byte header (two flag bytes) followed by 256 sort weights
+|-
+|3
+|2
+|<code>UCASE</code>
+|138 bytes
+|10-byte header followed by 128 bytes: upper-case values for 0x80-0xFF
+|-
+|4
+|4
+|<code>UCASE</code> or <code>FUCASE</code>
+|138 bytes
+|Normally another <code>UCASE</code> table. For some countries (65, 81, 82, 86, 88, 90) it is a <code>FUCASE</code> table instead (file-name case folding, used for the DBCS countries and Turkey).
+|-
+|5
+|5
+|<code>FCHAR</code>
+|32 bytes
+|Characters not allowed in file names (<code>. " / \ [ ] : &#124; &lt; &gt; + = ; ,</code>)
+|-
+|6
+|7
+|<code>DBCS</code>
+|10 + n bytes
+|Lead-byte range pairs (low, high), terminated by <code>00 00</code>. Empty for single-byte code pages.
+|}
+
+Many leaf tables are shared: the 304 directory entries in the 50,947-byte file use only 52 distinct collating tables, 28 case-mapping tables, 1 forbidden-character table and 11 DBCS tables.
+
+===Directory keys are lookup aliases===
+The (country, code page) in a directory entry is the key that <code>COUNTRY=nnn</code> and the NLS APIs search for. It is not always the same as the country and code page stored in the <code>CTYINFO</code> record it points to. 22 of the 304 entries are aliases: for example the key 1/932 resolves to the Japan (81/932) record, and 44/850 to the record with country code 380. When writing a replacement file the directory must therefore be generated separately from the list of records.
+
+===Observed content===
+The 50,947-byte file (as shipped with ArcaOS 5.1, same size as the Warp 4.5 file listed above) contains data for 85 different country codes and 46 different code pages (including 437, 850, 852, 857, 860-866, 932, 936, 942, 949, 950 and 1004).
+
+===Notes===
+* The file is validated by OS/2 when loaded. Wrong table counts or offsets give SYS02069. Padding appended after the last record is accepted.
+* Within the original file, the directory entry for 51/850 points 48 bytes before its real type table, and two <code>CTYINFO</code> records are not reached by any directory entry. These oddities are not required for a working file.
+
+==Alternatives==
+* Wim Brul created an experimental replacement for it in Assembler [https://github.com/OS2World/SYSTEM-DRV-Wims_Experimental_Files/tree/master/wmb-country-nls]. His source is BSD-licensed and was the independent confirmation of the layout above.
+* A C program that writes a COUNTRY.SYS with the structure above is part of the ''OS2-DRV-Replacement-Experiment'' project (COUNTRY folder). The file it produced booted on ArcaOS 5.1.2 and returned the same <code>DosQueryCtryInfo</code>, <code>DosQueryCollate</code>, <code>DosMapCase</code> and <code>DosQueryDBCSEnv</code> results as the original for the countries tested (1/850, 49/850, 81/932, 90/857). Its data tables were extracted from the original file, so it is a re-creation of the same data set, not a new locale database.
+
+[[Category:Device Drivers]]

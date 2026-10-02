@@ -1,7 +1,7 @@
 @echo off
 rem ---------------------------------------------------------------------------
 rem  compile.cmd - build PTRSKEL.OS2 (Phase 1) with the 16-bit DDK toolchain.
-rem  Run from anywhere on the VM: D:\PROJECTS\DRIVERS\POINTDD\compile.cmd
+rem  Run from anywhere on the VM: D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\compile.cmd
 rem
 rem  Writes compile.log (appended each run, same convention as ..\..\Util\
 rem  WarpJoy\compile.cmd) AND shows the same output live on the console - via
@@ -27,7 +27,7 @@ rem %~f0 (NT cmd.exe's "full path of this script") does NOT exist in OS/2's
 rem CMD.EXE - use the known fixed project path directly instead. No "call"
 rem needed either (that's only for invoking a script from within an already-
 rem running batch to return control after - this is a fresh subshell).
-cmd /c D:\PROJECTS\DRIVERS\POINTDD\compile.cmd _LOGGED_ 2>&1 | tee -a D:\PROJECTS\DRIVERS\POINTDD\compile.log
+cmd /c D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\compile.cmd _LOGGED_ 2>&1 | tee -a D:\PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\compile.log
 goto :end
 
 :run
@@ -48,7 +48,7 @@ echo LIB=%LIB%
 echo.
 
 d:
-cd \PROJECTS\DRIVERS\POINTDD\src
+cd \PROJECTS\Drivers\OS2-DRV-Replacement-Experiment\POINTDD\src
 
 echo === nmake ===
 nmake

@@ -1,0 +1,10 @@
+# original IBM/Arca Noae file - supply your own, do not redistribute
+/COUNTRY.SYS
+# build products (build/COUNTRY.SYS is the shipped golden file and IS tracked)
+*.obj
+*.exe
+*.log
+build/COUNTRY.NEW
+build/COUNTRY.REF
+experiments/
+__pycache__/
